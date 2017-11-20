@@ -1,19 +1,102 @@
 <html>
 <head>
 
+    <title>Vue Checkout UI</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style type="text/css">
+        body {
+            margin: 3em
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .unit-price {
+            margin-right: 2rem;
+            color: #999;
+        }
+    </style>
+
 
 
 </head>
 <body>
 
-<input type="text" name="search" id="search">
+<div  class="container" id="app">
+    <div class="header"><h1>Vue Shopping Cart</h1></div>
+
+
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <li v-for="item in shop">
+                <div>
+                    <h5>{{ item.name }}</h5>
+                    <p>${{ item.price }}</p>
+                    <button @click="addToCart(item)">Add to cart</button>
+                    <button @click="removeFromCart(item)">remove from cart</button>
+                </div>
+            </li></div>
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-sm-3">
+            Total Price: $<span class="unit-price" id="unit-price" v-model="tprice">{{tprice}}</span>
+        </div>
+        <div class="col-sm-3">
+            Total Quantities: #<span class="unit-quantity" id="unit-quantity" v-model="tquantity" >{{tquantity}}</span>
+        </div>
+        <!--<div class="col-sm-2 text-left">-->
+        <!--<button type="submit" class="btn btn-primary" @click="addToCart(item)">Remove Shopping</button>-->
+        <!--</div>-->
+    </div>
+
+
+</div>
 
 <script src="https://unpkg.com/vue@2.5.3/dist/vue.js"></script>
 <script>
-    let data = {search : "hello"};
 
-    document.querySelector('#search').value = data.search;
+    const shop = [
+        {
+            name: "Product 1",
+            price: 10.02,
+            quantity: 0
+        },
+        {
+            name: "Product 2",
+            price: 9.98,
+            quantity: 0
+        }
+    ];
+
+    const vm = new Vue({
+        el: "#app",
+        data: {
+            items: [],
+            shop: shop,
+            tprice: 0,tquantity:0,
+            verified: false
+        },
+        methods: {
+            addToCart(item) {
+                this.tprice += item.price;
+                this.tquantity += 1;
+//                this.items.push(item);
+
+
+            },
+            removeFromCart(item) {
+                this.tquantity -= 1;
+                this.tprice -= item.price;
+//                this.items.splice(this.items.indexOf(item), 1);
+            }
+        }
+    });
+
 
 </script>
-</body>
-</html>
+</body></html>
